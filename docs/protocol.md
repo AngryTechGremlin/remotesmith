@@ -135,3 +135,10 @@ the reference firmware can wake periodically to reconnect, at an interval set at
 - Pairing mode: hold Back + Home until the light pulses. The window is about 85 s.
 - A remote that was paired to a box and then forgotten by the box may refuse to pair again
   (connection timeouts). A factory reset of the remote fixes it. Seen on hardware.
+- Reconnecting (firmware, `app_adv_direct` in `app.c`): a bonded remote advertises to its host
+  only, with directed advertising. If the host paired under its fixed address, the remote calls
+  that address. If the host paired under a private address, the remote calls either that
+  address, which has since changed, or the host's identity through its resolving list. A host
+  whose controller cannot resolve addresses answers neither. Seen on hardware: such a host never
+  got the remote back after the link dropped; with the host's LE privacy off and a fresh
+  pairing, the remote reconnected within two seconds, also after a reboot of the host.

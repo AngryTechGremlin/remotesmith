@@ -128,15 +128,19 @@ data through `adb shell run-as`, and everything in §5 works as the normal shell
 Root is for digging below the app, such as reading the Bluetooth stack's own files. If you get
 there:
 
-1. Tell your human what you want it for, and that the box may need a reboot afterwards.
+1. Tell your human what you want it for, and that the box may need a reboot if it goes wrong.
 2. They switch it on: Settings, System, Developer options, Rooted debugging (LineageOS; unlock
    Developer options as in §4.3).
-3. Only then run `adb root`, and reconnect with `adb connect` afterwards.
+3. On network ADB, first run `adb shell setprop service.adb.tcp.port 5555` and reconnect with
+   `adb connect`. Only then run `adb root`, reconnect again, and run `adb unroot` when done.
 
-Never run `adb root` just to see whether it works. On LineageOS 23.2 for the Raspberry Pi 5,
-`adb root` with Rooted debugging off was refused and took ADB off the network: port 5555
-stopped answering, switching ADB off and on in the settings did not bring it back, and only a
-reboot did. `adb root` with Rooted debugging on has not been tried on that build since.
+Step 3 is what keeps you connected on KonstaKANG's Raspberry Pi builds. Their ADB service
+listens on the network at boot only by default, because the USB function does not exist yet.
+Any later restart of the service finds the USB function and stops listening on the network
+until a reboot; switching ADB off and on in the settings does not bring the port back. `adb
+root`, `adb unroot` and the ADB and Rooted debugging switches all restart the service, so warn
+your human before they touch those switches too. With the port set first, the service came
+back in about two seconds every time.
 
 ### 4.5 Pairing and resetting a remote
 
@@ -149,7 +153,8 @@ reboot did. `adb root` with Rooted debugging on has not been tried on that build
   the box, may refuse to pair until it is reset.
 - **Leave the box alone while a remote is being paired.** Launching or installing anything
   pushes the pairing screen away and leaves the remote half-connected. Check what is in front
-  first (§5).
+  first (§5). The same goes for restarting Bluetooth. If your human says they will do the
+  pairing, let them, and watch the list of paired devices instead of driving the settings.
 
 ### 4.6 A first session, in order
 
@@ -200,6 +205,7 @@ adb -s "$BOX_ADB" shell am start -n $APP/.MainActivity --es cmd dump
 #   listen --ei seconds N      log every press of a programmed button for N seconds
 #   beep --ei seconds N        beep for N seconds (0 stops); --ei wait M waits M minutes for a sleeping remote
 #   suppress | unsuppress      send Volume and Mute over Bluetooth instead of infrared, and back
+#   problem --es failure NAME  show a problem page without the failure (NAME: RemoteLink.Failure)
 ```
 
 The remote reports its own button presses (`listen`) and answers every beep request, so a
@@ -239,7 +245,8 @@ nothing can be read back. So:
 | The remote will not pair again | It was paired here before and removed | Reset it (§4.5), then pair |
 | A timer or a waiting job never fires | Android froze the app because it left the screen | Keep the app in front; it holds the screen on |
 | A running test dies | `adb install` restarts the app | Check nothing is running before installing |
-| Port 5555 refuses connections | `adb root` was run (§4.4) | Reboot the box |
+| Port 5555 refuses connections | The ADB service restarted without its port set (§4.4) | Reboot the box |
+| A paired remote or controller does not come back after a reboot | The box hides its Bluetooth address and its chip cannot resolve it | README, "If the remote stops working after a reboot" |
 | Buttons do nothing after an upload | The session listed only some buttons | Always send the whole set (`docs/protocol.md`) |
 
 Never write to the remote's firmware update service (`00010203-0405-0607-0809-0a0b0c0d1912`),
@@ -319,6 +326,11 @@ screen at most. `docs/adr/README.md` is the index. Supersede a decision; do not 
   `android.builtInKotlin=false` is set: 2.4 MB for nothing.
 - A count such as "code 1 of 474" discourages more than it informs. The wizard counts only a
   brand's own volume codes.
+- A remote that will not reconnect after a reboot is not always the remote or the app. On a box
+  whose Bluetooth chip cannot resolve private addresses, no paired device comes back until LE
+  privacy is switched off (README). Check `le_resolving_list_size` first. A device paired
+  before the change has to be paired again, and so does one paired while the old setting was
+  back for a while.
 
 ## 12. Local overrides
 

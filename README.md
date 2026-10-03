@@ -84,6 +84,49 @@ learned with a Broadlink. `profiles/` has two complete examples.
   the box. If your TV and box both support HDMI-CEC, the box can follow the TV.
 - **The device already has Google's remote setup** (Settings, Remotes and accessories, Set up
   remote buttons). Use that instead; the two would overwrite each other.
+- **The remote is paired but does nothing after the box restarts.** See the next section.
+
+## If the remote stops working after a reboot
+
+Some boxes cannot take a paired Bluetooth remote back after a restart. The remote still shows as
+paired but does nothing until it is paired again, and a game controller behaves the same way. The
+cause is the box, not the remote or this app. It matters here because resetting the remote to pair
+it again erases its TV buttons.
+
+**Why.** Android hides the box behind a random Bluetooth address that keeps changing. A paired
+remote reconnects by calling the address it paired with, and only a Bluetooth chip that can
+resolve such addresses recognises the call. The Raspberry Pi 5's chip cannot.
+
+**Check.** A box is affected if this prints `le_resolving_list_size: 0`:
+
+```bash
+adb shell dumpsys bluetooth_manager | grep le_resolving_list_size
+```
+
+**Fix.** Make the box use its fixed address, then pair every Bluetooth device once more. This needs
+root over ADB; on LineageOS that is Settings, System, Developer options, Rooted debugging.
+
+```bash
+# KonstaKANG's Raspberry Pi builds only: keeps network ADB alive through "adb root"
+adb shell setprop service.adb.tcp.port 5555
+adb connect <box-ip>:5555
+
+adb root
+adb connect <box-ip>:5555
+adb shell "echo bluetooth.core.gap.le.privacy.enabled=false >> /data/local.prop && chmod 644 /data/local.prop"
+adb reboot
+```
+
+After the reboot, forget each remote and controller under Settings, Remotes and accessories, and
+pair it again. A pairing made before the change keeps failing. If a remote was reset along the way,
+"Send the saved setup to a remote" in Remotesmith puts its TV buttons back.
+
+What it costs: devices nearby can see the box's real Bluetooth address. To undo it, remove that
+line from `/data/local.prop` and reboot.
+
+This was found and fixed on one box, a Raspberry Pi 5 running LineageOS 23.2 (KonstaKANG's build).
+`/data/local.prop` is only read by debuggable builds such as that one. On other builds the setting
+has to come from whoever makes the build.
 
 ## What was tested
 
@@ -94,8 +137,9 @@ learned with a Broadlink. `profiles/` has two complete examples.
 | TV | Haier 43UG2500A |
 
 Checked on that hardware: programming all five buttons, hold-to-repeat on the volume buttons, the
-★ button as Input, every code form the remote supports, and find my remote (start, stop, time-out
-and "found"). Everything else rests on the published design described below.
+★ button as Input, every code form the remote supports, find my remote (start, stop, time-out
+and "found"), and sending a saved setup to a second remote. Everything else rests on the published
+design described below.
 
 ## How it works
 
