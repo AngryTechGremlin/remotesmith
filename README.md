@@ -166,11 +166,12 @@ It downloads them into `vendor/`, which is not committed.
 
 ## Contributing, with or without an AI agent
 
-[agent.md](agent.md) is the working agreement for this repo. It covers setting up, switching on
-ADB on the box, what to check on real hardware and how, and what must never be committed. It is
-written so that you can point a coding agent at a clone and work the way this project was built:
-the agent builds, installs, drives the app and reads the logs; you press the buttons on the remote
-and say what the TV did.
+[AGENTS.md](AGENTS.md) is the working agreement for this repo. It covers setting up, switching on
+ADB on the box, what to check on real hardware and how, and what must never be committed. Most
+coding agents read it on their own; `CLAUDE.md` imports it for Claude Code. It is written so that
+you can point a coding agent at a clone and work the way this project was built: the agent builds,
+installs, drives the app and reads the logs; you press the buttons on the remote and say what the
+TV did.
 
 ## Where the codes come from
 

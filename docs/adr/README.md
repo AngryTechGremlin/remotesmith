@@ -1,6 +1,6 @@
 # Architecture decisions
 
-One file per trade-off made against a principle in `agent.md` §1, newest last.
+One file per trade-off made against a principle in `AGENTS.md` §1, newest last.
 One screen maximum. Supersede a decision with a new record; do not rewrite one.
 
 | # | Title | Status |

@@ -1,4 +1,4 @@
-# Your own setup: addresses and notes that must never be committed (agent.md §3).
+# Your own setup: addresses and notes that must never be committed (AGENTS.md §3).
 # `.env.*` covers copies such as .env.local or .env.bak; only the example is tracked.
 .env
 .env.*
@@ -25,7 +25,7 @@ local.properties
 __pycache__/
 .claude/settings.local.json
 
-# Release signing material (agent.md §6). It never belongs in the repo.
+# Release signing material (AGENTS.md §6). It never belongs in the repo.
 *.jks
 *.keystore
 keystore.properties

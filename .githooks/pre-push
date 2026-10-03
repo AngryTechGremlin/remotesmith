@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # Enabled by: git config core.hooksPath .githooks
-# Last line of defence before personal data leaves the machine (agent.md §3).
+# Last line of defence before personal data leaves the machine (AGENTS.md §3).
 set -euo pipefail
 exec "$(git rev-parse --show-toplevel)/scripts/pii-scan.sh"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Refuse to let personal data reach a committed file (agent.md §3).
+# Refuse to let personal data reach a committed file (AGENTS.md §3).
 #
 # Scans tracked AND untracked-but-not-ignored files, so it tells the truth
 # about what a commit would carry rather than only about what one already has.
