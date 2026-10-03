@@ -1,0 +1,22 @@
+# Your own setup: addresses and notes that must never be committed (agent.md §3).
+.env
+pi.md
+
+# Downloaded database sources and tools (tools/build_db.py), and device logs,
+# screenshots and test profiles, which hold device names and addresses.
+vendor/
+captures/
+
+# Build output and machine-local tool state.
+build/
+app/build/
+.gradle/
+local.properties
+.venv/
+__pycache__/
+.claude/settings.local.json
+
+# Release signing material (agent.md §6). It never belongs in the repo.
+*.jks
+*.keystore
+keystore.properties

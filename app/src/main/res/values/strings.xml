@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Remotesmith</string>
+
+    <!-- Home -->
+    <string name="home_intro">Set up the Volume, Mute, Power and Input buttons of your remote so they control your TV, or make the remote beep when it is lost.</string>
+    <string name="home_saved">The TV buttons were last set up for: %1$s.</string>
+    <string name="brand_unlisted">a TV whose brand is not listed</string>
+    <string name="brand_own">your own codes</string>
+    <string name="home_google">This device has Google\'s own remote setup, under Settings, Remotes and accessories. Use that one instead: the two would overwrite each other.</string>
+    <string name="action_setup">Set up TV buttons</string>
+    <string name="action_find">Find my remote</string>
+    <string name="action_resend">Send the saved setup to a remote</string>
+    <string name="action_more">More</string>
+    <string name="action_back">Back</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_retry">Try again</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_done">Done</string>
+
+    <!-- More -->
+    <string name="more_title">More</string>
+    <string name="action_clear">Remove the TV buttons from the remote</string>
+    <string name="action_import">Use my own codes</string>
+    <string name="action_about">About</string>
+    <string name="clear_title">Remove the TV buttons?</string>
+    <string name="clear_body">Volume, Mute, Power and Input will stop controlling the TV and act on this box again. You can set them up again at any time.</string>
+    <string name="clear_confirm">Remove them</string>
+    <string name="cleared_title">The TV buttons are removed</string>
+    <string name="cleared_body">The remote\'s buttons act on this box again.</string>
+    <string name="import_title">Use my own codes</string>
+    <string name="import_body">For a TV this app has no code for. Put a file named profile.json here:\n%1$s\n\nIt lists a Pronto hex code for each button, for example:\n{\"volume_up\": \"0000 006D …\", \"volume_down\": \"…\", \"mute\": \"…\", \"power\": \"…\", \"input\": \"…\"}</string>
+    <string name="import_send">Send the file\'s codes to the remote</string>
+    <string name="import_problem">That file could not be used: %1$s</string>
+    <string name="about_body">Version %1$s\n\nRemotesmith sets up the TV buttons of remotes built on Google\'s reference design, the way the box they shipped with would. It is not affiliated with Google.\n\nTV codes come from the IRext database (MIT licence, © 2019 IRext) and from Flipper-IRDB files given under CC0.\n\nThe app is free software under the Apache licence 2.0.</string>
+
+    <!-- Talking to the remote -->
+    <string name="sending_title">One moment</string>
+    <string name="sending_body">Sending the codes to the remote…</string>
+    <string name="sent_title">The setup is on the remote</string>
+    <string name="sent_body">Point the remote at the TV and try the buttons.</string>
+    <string name="problem_title">The remote did not answer</string>
+    <string name="problem_unreachable">Press any button on the remote to wake it, then try again.\n\nIf it still does not answer, check its batteries.</string>
+    <string name="problem_not_paired">No remote is paired with this box yet.\n\nOpen Settings, Remotes and accessories, Pair accessory. Then hold Back and Home on the remote until its light pulses.\n\nA remote that was paired here before may need a reset first: hold Mute and the centre button until the light stays on.</string>
+    <string name="problem_bluetooth_off">Bluetooth is switched off on this box. Turn it on in Settings, then try again.</string>
+    <string name="problem_permission">The app needs permission to use Bluetooth to talk to the remote.</string>
+    <string name="problem_unsupported">This remote cannot do that. The app works with remotes built on Google\'s reference design, such as the Google TV Streamer and Chromecast voice remotes.</string>
+    <string name="problem_refused">The remote stopped answering part-way. Keep it close and try again.</string>
+
+    <!-- Setup wizard -->
+    <string name="intro_title">Set up TV buttons</string>
+    <string name="intro_body">You pick your TV\'s brand, then try codes until the TV answers. It takes a few minutes.\n\nKeep the remote pointed at the TV while you test.\n\nThis replaces any TV buttons the remote has now.</string>
+    <string name="action_start">Start</string>
+    <string name="brand_title">Which brand is your TV?</string>
+    <string name="brand_not_listed">Not listed, or not sure</string>
+    <string name="brand_popular">Most common</string>
+    <string name="brand_all">All brands</string>
+    <string name="step_volume">Volume</string>
+    <string name="step_mute">Mute</string>
+    <string name="step_power">Power</string>
+    <string name="step_input">Input</string>
+    <string name="question_title">%1$s: code %2$d of %3$d</string>
+    <string name="question_title_open">%1$s: code %2$d</string>
+    <string name="volume_body">Point the remote at the TV. Press Volume Up a few times, then Volume Down, and hold one of them for a moment.\n\nDid the TV\'s volume follow?</string>
+    <string name="mute_body">Press Mute.\n\nDid the TV mute? Press it again to bring the sound back.</string>
+    <string name="power_body">Read this first, because the screen will go dark:\n\n1. Press Power. The TV should turn off.\n2. Wait about 10 seconds.\n3. Press Power again and wait for the picture.\nThen answer below.</string>
+    <string name="input_body">Press the ★ button (on some remotes it is marked Input).\n\nThe TV should show its list of inputs. If the picture switches away from this screen, keep pressing until it comes back.</string>
+    <string name="answer_volume_yes">Yes, the volume followed</string>
+    <string name="answer_yes">Yes, it works</string>
+    <string name="answer_power_yes">It turned off and back on</string>
+    <string name="answer_next">No, try the next code</string>
+    <string name="answer_power_stuck">It turned off but not back on</string>
+    <string name="answer_previous">Go back one code</string>
+    <string name="answer_skip">Skip %1$s</string>
+    <string name="answer_stop">Stop the setup</string>
+    <string name="status_pressed">The remote sent: %1$s</string>
+    <string name="key_volume_up">Volume Up</string>
+    <string name="key_volume_down">Volume Down</string>
+    <string name="key_mute">Mute</string>
+    <string name="key_power">Power</string>
+    <string name="key_input">Input</string>
+    <string name="own_done_title">None of the %1$s codes moved the volume</string>
+    <string name="own_done_body">Next come the most common codes from other brands. Many TVs answer to one of them.</string>
+    <string name="action_keep_going">Keep going</string>
+    <string name="action_other_brand">Pick another brand</string>
+    <string name="none_title">No code moved the TV\'s volume</string>
+    <string name="none_body">Check that nothing blocks the front of the remote and that its batteries are fresh, then try again.\n\nIf your TV really is not covered, you can add its codes yourself under More, Use my own codes.</string>
+    <string name="action_start_over">Start over</string>
+    <string name="button_none_title">No code worked for %1$s</string>
+    <string name="button_none_body">That button is left without a TV code and keeps acting on this box.</string>
+    <string name="power_stuck_title">The TV did not come back on</string>
+    <string name="power_stuck_body">Turn the TV on with its own button or its own remote.\n\nSome TVs ignore Power for a few seconds after turning off. If this happens again, skip Power.</string>
+    <string name="action_same_again">Try the same code again</string>
+    <string name="stop_title">Stop the setup?</string>
+    <string name="stop_body_some">The buttons you confirmed so far stay on the remote. The rest keep acting on this box.</string>
+    <string name="stop_body_none">Nothing was confirmed yet, so the remote goes back to how it was set up before.</string>
+    <string name="action_stop_confirm">Stop</string>
+    <string name="action_keep_setting_up">Keep setting up</string>
+    <string name="done_title">The remote is set up</string>
+    <string name="done_body">Working with the TV now: %1$s.\n\nThe codes are stored in the remote itself, so they keep working, even with another box. A copy is kept here in case you want to send it to a second remote.</string>
+    <string name="done_body_without">\n\nLeft acting on this box: %1$s.</string>
+
+    <!-- Find my remote -->
+    <string name="find_title">Find my remote</string>
+    <string name="find_body">The remote beeps for up to 30 seconds. Press any button on it to stop the sound.</string>
+    <string name="find_looking">Looking for the remote…</string>
+    <string name="find_waiting">The remote is asleep. It will beep as soon as it wakes up, which can take a few minutes. Keep this screen open.</string>
+    <string name="find_beeping">The remote is beeping.</string>
+    <string name="find_found">Found: a button was pressed on the remote.</string>
+    <string name="find_finished">The beep ended.</string>
+    <string name="find_stopped">The beep was stopped.</string>
+    <string name="find_low_battery">The remote\'s batteries are too low to beep.</string>
+    <string name="find_no_beeper">This remote has no beeper.</string>
+    <string name="action_beep_again">Beep again</string>
+    <string name="action_beep_stop">Stop the beep</string>
+</resources>

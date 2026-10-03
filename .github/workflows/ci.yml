@@ -1,0 +1,57 @@
+name: ci
+
+# "Does it build, does it pass, and is it free of personal data" on every push
+# and pull request, on GitHub's hosted runners. Nothing here needs a secret or
+# touches a real device.
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+# The jobs only read the code.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  hygiene:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: no personal data in tracked files
+        run: scripts/pii-scan.sh
+
+      - name: shell scripts parse and are shellcheck-clean
+        run: |
+          set -euo pipefail
+          # --others so a script that is not tracked yet is still checked: plain
+          # `git ls-files` lists nothing in a repo with no commits, and a linter
+          # that examined nothing must not report success.
+          mapfile -t sh < <(git ls-files --cached --others --exclude-standard '*.sh' .githooks)
+          if [ ${#sh[@]} -eq 0 ]; then
+            echo "found no shell scripts to check — the file list is broken" >&2
+            exit 1
+          fi
+          bash -n "${sh[@]}"
+          shellcheck "${sh[@]}"
+
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - name: tools and the bundled code database
+        run: python -m unittest discover -s tools -v
+
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: "21" }
+      - name: build the app, run its unit tests and lint
+        run: ./gradlew --no-daemon assembleDebug testDebugUnitTest lintDebug

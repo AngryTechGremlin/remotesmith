@@ -1,0 +1,5 @@
+# Pathspecs excluded from scripts/pii-scan.sh, one per line, each with a comment
+# saying WHY it is safe. Narrow paths only — never a whole directory.
+#
+# Example:
+#   docs/rfc1918-primer.md   # explains the ranges; the addresses are the subject
