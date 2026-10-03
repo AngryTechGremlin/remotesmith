@@ -40,7 +40,7 @@
     <string name="sent_title">The setup is on the remote</string>
     <string name="sent_body">Point the remote at the TV and try the buttons.</string>
     <string name="problem_title">The remote did not answer</string>
-    <string name="problem_unreachable">Press any button on the remote to wake it, then try again.\n\nIf it still does not answer, check its batteries.</string>
+    <string name="problem_unreachable">Press any button on the remote to wake it, then try again.\n\nIf it still does not answer, check its batteries.\n\nIf this began after the box restarted, the box may be the cause. See \"If the remote stops working after a reboot\" at github.com/AngryTechGremlin/remotesmith.</string>
     <string name="problem_not_paired">No remote is paired with this box yet.\n\nOpen Settings, Remotes and accessories, Pair accessory. Then hold Back and Home on the remote until its light pulses.\n\nA remote that was paired here before may need a reset first: hold Mute and the centre button until the light stays on.</string>
     <string name="problem_bluetooth_off">Bluetooth is switched off on this box. Turn it on in Settings, then try again.</string>
     <string name="problem_permission">The app needs permission to use Bluetooth to talk to the remote.</string>

@@ -15,6 +15,7 @@ import java.util.SortedMap;
  *   CMD: profile | clear | dump | suppress | unsuppress
  *        listen  (report key presses for N seconds, default 30)
  *        beep    (N seconds, 0 to 30, 0 stops; --ei wait M waits up to M minutes for a sleeping remote)
+ *        problem (--es failure NAME: shows that problem page without the failure, NAME as in RemoteLink.Failure)
  * </pre>
  * The profile format is the one {@link Profiles} reads.
  */
@@ -57,6 +58,13 @@ final class DebugCommands {
                 int tenths = Math.max(0, Math.min(30, seconds)) * 10;
                 long patience = intent.getIntExtra("wait", 0) * 60_000L;
                 app.job(() -> link.beep(tenths, patience), failure -> { });
+                break;
+            case "problem":
+                try {
+                    app.showProblem(RemoteLink.Failure.valueOf(intent.getStringExtra("failure")));
+                } catch (RuntimeException e) {
+                    Log.i(MainActivity.TAG, "problem: no such failure");
+                }
                 break;
             default:
                 Log.i(MainActivity.TAG, "unknown command: " + cmd);

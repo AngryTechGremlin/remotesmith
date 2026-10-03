@@ -317,6 +317,11 @@ public final class MainActivity extends Activity implements RemoteLink.Listener 
                 choice(R.string.action_retry, retry), choice(R.string.action_cancel, cancel));
     }
 
+    /** For {@link DebugCommands}: shows a problem page so its text can be checked on a real screen. */
+    void showProblem(RemoteLink.Failure failure) {
+        problem(failure, this::home, this::home);
+    }
+
     private String problemText(RemoteLink.Failure failure) {
         switch (failure) {
             case NO_PERMISSION: return getString(R.string.problem_permission);
