@@ -7,7 +7,16 @@ On a certified Google TV device, Google's own software does this. On a box witho
 Raspberry Pi or another device running LineageOS, those buttons do nothing useful. Remotesmith
 fills that gap.
 
-It is not affiliated with Google.
+> [!WARNING]
+> **Experimental software. Using it is your choice and at your own risk.** It writes to your
+> remote: setting up the TV buttons overwrites whatever TV codes the remote has stored, and they
+> cannot be read back first. It could also affect a remote in ways not seen in testing, which
+> covered one box, one TV and two remotes of one model. It is provided "as is", without warranty
+> of any kind, and the authors take no responsibility for any effect on your remote, your TV or
+> anything else. The [licence](LICENSE) has the full terms (sections 7 and 8).
+
+Remotesmith is not affiliated with or endorsed by Google. Google TV and Chromecast are trademarks
+of Google LLC; other names belong to their owners.
 
 ## What you need
 
