@@ -1,6 +1,15 @@
 # Your own setup: addresses and notes that must never be committed (agent.md §3).
+# `.env.*` covers copies such as .env.local or .env.bak; only the example is tracked.
 .env
+.env.*
+!.env.example
 pi.md
+
+# Editor leftovers. A swap or backup copy of a private file holds what that file holds,
+# and the personal-data scan cannot read inside one.
+*.swp
+*.swo
+*~
 
 # Downloaded database sources and tools (tools/build_db.py), and device logs,
 # screenshots and test profiles, which hold device names and addresses.

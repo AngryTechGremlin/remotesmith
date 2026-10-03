@@ -60,12 +60,17 @@ pull request.
   never paste them raw. Mask addresses (`XX:XX:XX:XX:…`) and save anything you keep under
   `captures/`.
 - **Before every push:** `scripts/pii-scan.sh`. It is also the pre-push hook and a CI job. It
-  finds credentials, private addresses, MAC addresses and coordinates. It does not know your
-  name: also look for usernames in paths, e-mail addresses and device names yourself. Never
-  weaken a pattern to get a push through; fix the file, or add a narrow path to
+  finds credentials, private addresses, MAC addresses and coordinates, in binary files too. It
+  does not know your name: also look for usernames in paths, e-mail addresses and device names
+  yourself. Never weaken a pattern to get a push through; fix the file, or add a narrow path to
   `scripts/pii-scan.exclude` with the reason.
+- **Look at `git status` before `git add -A`.** An editor that has `.env` or `pi.md` open keeps
+  a swap copy beside it. `.gitignore` covers the usual names; a new kind of copy is yours to
+  notice.
 - The Git author name and e-mail of every commit are public and permanent. Check
-  `git config user.email` before the first commit.
+  `git config user.email` before the first commit. An edit made on github.com is committed with
+  your account's primary address unless "Keep my email addresses private" is on (GitHub,
+  Settings, Emails), so switch that on before your first edit there.
 
 ## 4. Getting set up
 

@@ -16,6 +16,10 @@
 #         coordinates. Scanned everywhere EXCEPT test paths, and skipped on
 #         lines that are evidently an example (see $placeholder below).
 #
+# Binary files are searched as text as well and reported by name only. An
+# editor's swap copy of .env is a binary file with the real address inside, and
+# a scan that skips binary files calls it clean.
+#
 # Structurally exempt, by construction rather than by exception list:
 #   - documentation ranges 192.0.2.x / 198.51.100.x / 203.0.113.x (use these in
 #     tests and docs -- they are reserved for exactly this and never route)
@@ -67,7 +71,8 @@ filter_content() {
 
 fail=0
 scan() { # <tier: hard|soft> <label> <pattern> [extra-skip-regex]
-  local tier=$1 label=$2 pattern=$3 skip=${4:-} hits
+  local tier=$1 label=$2 pattern=$3 skip=${4:-} hits binary flags out
+  local -a found=()
   local -n specs="${tier}_specs"
   # --untracked so a file that has not been `git add`ed yet is still
   # scanned. Without it this checks only tracked files, which means it
@@ -79,16 +84,29 @@ scan() { # <tier: hard|soft> <label> <pattern> [extra-skip-regex]
   # a scan that examined nothing must never print "clean", so anything else
   # stops the scan. -e keeps a pattern that starts with "-" (the private-key
   # one does) a pattern, not an option.
-  local rc=0
-  hits=$(git grep --untracked -nIE -e "$pattern" -- . "${specs[@]}") || rc=$?
-  if ((rc == 1)); then
-    return 0
-  elif ((rc != 0)); then
-    echo "pii-scan: git grep failed (exit $rc) while checking: $label" >&2
-    exit 2
-  fi
-  if [[ -n $skip ]]; then
+  #
+  # Three passes, so that "binary" means what git means by it: the matching
+  # lines of text files (-I), the names of all files that match when binary
+  # ones are read as text (-a), and the names of the text files among those.
+  # A name in the second list and not in the third is a binary file.
+  local rc
+  for flags in -nI -la -lI; do
+    rc=0
+    out=$(git grep --untracked "$flags" -E -e "$pattern" -- . "${specs[@]}") || rc=$?
+    if ((rc > 1)); then
+      echo "pii-scan: git grep failed (exit $rc) while checking: $label" >&2
+      exit 2
+    fi
+    found+=("$out")
+  done
+  hits=${found[0]}
+  if [[ -n $skip && -n $hits ]]; then
     hits=$(printf '%s\n' "$hits" | filter_content "$skip")
+  fi
+  # No line to show for these, and no line that could say "this is an example".
+  binary=$(comm -23 <(sort <<<"${found[1]}") <(sort <<<"${found[2]}"))
+  if [[ -n $binary ]]; then
+    hits+=${hits:+$'\n'}${binary//$'\n'/$': binary file matches\n'}': binary file matches'
   fi
   [[ -n $hits ]] || return 0
   printf '\n!! %s\n%s\n' "$label" "$hits"
@@ -133,8 +151,10 @@ if (( fail )); then
   cat >&2 <<'MSG'
 
 Personal data or a credential is present in a file a commit would carry. Move
-the value to .env (gitignored) and leave a placeholder behind. If it is already
-pushed, rotate the credential; git history keeps it forever.
+the value to .env (gitignored) and leave a placeholder behind. A binary file
+that matches is usually an editor's swap or backup copy of a private file:
+delete it or ignore it. If it is already pushed, rotate the credential; git
+history keeps it forever.
 MSG
   exit 1
 fi
